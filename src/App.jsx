@@ -176,7 +176,7 @@ function App() {
 
       <footer className="app-footer">
         <div className="footer-content">
-          <p className="footer-title">Desarrollado con 🕸️ por Fabrizio Coronel</p>
+          <p className="footer-title"> &copy; 2026 Desarrollado por Fabrizio Coronel</p>
           <p className="footer-stack">React Frontend</p>
           <p className="footer-location">San Miguel de Tucumán, Argentina</p>
         </div>
