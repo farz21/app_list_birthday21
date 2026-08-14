@@ -355,3 +355,153 @@ input[type="color"] {
     text-align: right;
   }
 }
+/* --- Nuevo estilo de "Tickets" para los datos --- */
+.event-details-fixed {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin: 20px 0 30px 0;
+  flex-wrap: wrap; /* Permite que bajen de línea si no caben */
+}
+
+.event-details-fixed p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  color: #ffffff;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.event-details-fixed p:hover {
+  transform: translateY(-3px);
+  border-color: #10b981; /* O el color principal de tu temática */
+}
+
+/* Iconos un poco más grandes */
+.event-details-fixed p span.icon {
+  font-size: 1.3rem;
+}
+/* --- Cuenta Regresiva --- */
+.countdown-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.time-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 15px;
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+  color: #fff;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.time-box span {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #10b981; /* Cambia esto por tu color temático si lo deseas */
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+/* --- Botones de Filtro --- */
+.list-header {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ccc;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.active-filter {
+  background: #10b981; /* Color activo */
+  border-color: #10b981;
+  color: #fff;
+  font-weight: bold;
+}
+/* --- Contenedor y Título de la Cuenta Regresiva --- */
+.countdown-wrapper {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.countdown-title {
+  color: #10b981; /* Color verde/temático para que resalte */
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Solo asegúrate de que el margen inferior de countdown-container no duplique espacios */
+.countdown-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+/* --- Botón de Google Maps --- */
+.location-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.maps-btn {
+  display: inline-block;
+  background-color: transparent;
+  color: #10b981; /* Tu color verde temático */
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: bold;
+  padding: 6px 12px;
+  border: 1px solid #10b981;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  margin-top: -5px; /* Para acercarlo un poquito al texto de arriba */
+}
+
+.maps-btn:hover {
+  background-color: #10b981;
+  color: #ffffff;
+  transform: scale(1.05);
+}
