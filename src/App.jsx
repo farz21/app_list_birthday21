@@ -2,56 +2,74 @@ import { useState, useEffect } from 'react';
 import './index.css';
 
 function App() {
-  // Cargar detalles de localStorage
-  const [partyDetails, setPartyDetails] = useState(() => {
-    const saved = localStorage.getItem('myPartyDetails');
-    return saved ? JSON.parse(saved) : { date: '', time: '', location: '' };
-  });
+  // 1. Apuntamos al servidor de Node.js que está corriendo en tu compu
+  const API_URL = 'http://localhost:5000/api/guests';
 
-  // Cargar invitados de localStorage
-  const [guests, setGuests] = useState(() => {
-    const saved = localStorage.getItem('myPartyGuests');
-    return saved ? JSON.parse(saved) : [];
-  });
-
+  const [partyDetails, setPartyDetails] = useState({ date: '', time: '', location: '' });
+  const [guests, setGuests] = useState([]);
   const [guestForm, setGuestForm] = useState({ name: '', group: 'Amigos', color: '#10b981' });
 
-  // Guardar en localStorage cada vez que cambien los datos
+  // 2. Traer los invitados desde MongoDB al abrir la página
   useEffect(() => {
-    localStorage.setItem('myPartyDetails', JSON.stringify(partyDetails));
-  }, [partyDetails]);
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => setGuests(data))
+      .catch(err => console.error("Error al cargar invitados:", err));
+  }, []);
 
-  useEffect(() => {
-    localStorage.setItem('myPartyGuests', JSON.stringify(guests));
-  }, [guests]);
-
-  const handleAddGuest = (e) => {
+  // 3. Agregar un nuevo invitado
+  const handleAddGuest = async (e) => {
     e.preventDefault();
     if (!guestForm.name) return;
 
     const newGuest = {
-      id: crypto.randomUUID(),
       name: guestForm.name,
       groupName: guestForm.group,
       color: guestForm.color,
       status: 'Pendiente'
     };
 
-    setGuests([...guests, newGuest]);
-    setGuestForm({ ...guestForm, name: '' });
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newGuest)
+      });
+      const savedGuest = await response.json();
+      
+      // Lo agregamos a la lista visual
+      setGuests([...guests, savedGuest]);
+      setGuestForm({ ...guestForm, name: '' });
+    } catch (error) {
+      console.error("Error al guardar:", error);
+    }
   };
 
-  const toggleStatus = (id) => {
-    setGuests(guests.map(g => {
-      if (g.id === id) {
-        return { ...g, status: g.status === 'Pendiente' ? 'Confirmado' : 'Pendiente' };
-      }
-      return g;
-    }));
+  // 4. Cambiar el estado a Confirmado/Pendiente
+  const toggleStatus = async (id) => {
+    const guestToUpdate = guests.find(g => g._id === id); // Usamos _id
+    const newStatus = guestToUpdate.status === 'Pendiente' ? 'Confirmado' : 'Pendiente';
+
+    try {
+      await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+      setGuests(guests.map(g => g._id === id ? { ...g, status: newStatus } : g));
+    } catch (error) {
+      console.error("Error al actualizar:", error);
+    }
   };
 
-  const deleteGuest = (id) => {
-    setGuests(guests.filter(g => g.id !== id));
+  // 5. Eliminar un invitado
+  const deleteGuest = async (id) => {
+    try {
+      await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+      setGuests(guests.filter(g => g._id !== id));
+    } catch (error) {
+      console.error("Error al eliminar:", error);
+    }
   };
 
   const confirmedCount = guests.filter(g => g.status === 'Confirmado').length;
@@ -144,7 +162,7 @@ function App() {
               <div className="cards-grid">
                 {guests.map((guest) => (
                   <div 
-                    key={guest.id} 
+                    key={guest._id} 
                     className={`guest-card ${guest.status === 'Confirmado' ? 'is-confirmed' : ''}`}
                     style={{ borderTop: `4px solid ${guest.color}` }}
                   >
@@ -157,12 +175,12 @@ function App() {
                     
                     <div className="card-actions">
                       <button 
-                        onClick={() => toggleStatus(guest.id)} 
+                        onClick={() => toggleStatus(guest._id)} 
                         className={`status-btn ${guest.status === 'Confirmado' ? 'btn-confirmed' : 'btn-pending'}`}
                       >
                         {guest.status === 'Confirmado' ? '✓ Confirmado' : '? Pendiente'}
                       </button>
-                      <button onClick={() => deleteGuest(guest.id)} className="delete-btn">
+                      <button onClick={() => deleteGuest(guest._id)} className="delete-btn">
                         ✖
                       </button>
                     </div>
