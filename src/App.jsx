@@ -3,7 +3,7 @@ import './index.css';
 
 function App() {
   // 1. Apuntamos al servidor de Node.js que está corriendo en tu compu
-  const API_URL = 'http://localhost:5000/api/guests';
+  const API_URL = 'https://app-list-birthday21-backend.onrender.com/api/guests';
 
   const [partyDetails, setPartyDetails] = useState({ date: '', time: '', location: '' });
   const [guests, setGuests] = useState([]);
