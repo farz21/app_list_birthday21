@@ -145,7 +145,7 @@ function App() {
             <div className="location-wrapper">
               <p><span className="icon">📍</span> San Miguel de Tucumán</p>
               <a 
-                href="https://www.google.com/maps/search/?api=1&query=San+Miguel+de+Tucuman" 
+                href="https://maps.app.goo.gl/tBGUmhS7cZtdd9Tc8" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="maps-btn"
